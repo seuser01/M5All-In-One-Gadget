@@ -234,13 +234,8 @@ void AppControl::displayMusicStop()
 
 void AppControl::displayMusicTitle()
 {
-    M5.Lcd.setTextSize(2);
-    M5.Lcd.setCursor(MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
-    M5.Lcd.setTextColor(BLACK, WHITE);
-    M5.Lcd.print("                  ");
-    M5.Lcd.setCursor(MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
-    M5.Lcd.setTextColor(BLACK, WHITE);
-    M5.Lcd.print(mmplay.getTitle());
+    mlcd.displayText("                  ", MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
+    mlcd.displayText(mmplay.getTitle(), MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
 }
 
 void AppControl::displayNextMusic()
@@ -302,13 +297,8 @@ void AppControl::displayDateInit()
 
 void AppControl::displayDateUpdate()
 {
-    M5.Lcd.setTextSize(5);
-    M5.Lcd.setCursor(DATE_YYYYMMDD_X_CRD, DATE_YYYYMMDD_Y_CRD);
-    M5.Lcd.setTextColor(BLACK, WHITE);
-    M5.Lcd.print(mdtime.readDate());
-    M5.Lcd.setCursor(DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
-    M5.Lcd.setTextColor(BLACK, WHITE);
-    M5.Lcd.print(mdtime.readTime());
+    mlcd.displayDateText(mdtime.readDate(), DATE_YYYYMMDD_X_CRD, DATE_YYYYMMDD_Y_CRD);
+    mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
 }
 
 void AppControl::controlApplication()
@@ -337,7 +327,7 @@ void AppControl::controlApplication()
 
                 if (m_flag_btnA_is_pressed || m_flag_btnB_is_pressed || m_flag_btnC_is_pressed)
                 {
-                    delay(100); // チャタリング防止
+                    delay(200); // チャタリング防止
                     setBtnAllFlgFalse();
                     setStateMachine(TITLE, EXIT);
                 }
@@ -366,8 +356,6 @@ void AppControl::controlApplication()
             case DO:
                 if (m_flag_btnA_is_pressed)
                 {
-                    delay(100); // チャタリング防止
-                    setBtnAllFlgFalse();
                     switch (m_focus_state)
                     {
                     case MENU_WBGT:
@@ -389,6 +377,8 @@ void AppControl::controlApplication()
                     default:
                         break;
                     }
+                    setBtnAllFlgFalse();
+                    delay(100); // チャタリング防止
                 }
                 else if (m_flag_btnB_is_pressed)
                 {
@@ -398,8 +388,6 @@ void AppControl::controlApplication()
                 }
                 else if (m_flag_btnC_is_pressed)
                 {
-                    delay(100); // チャタリング防止
-                    setBtnAllFlgFalse();
                     switch (m_focus_state)
                     {
                     case MENU_WBGT:
@@ -421,6 +409,8 @@ void AppControl::controlApplication()
                     default:
                         break;
                     }
+                    setBtnAllFlgFalse();
+                    delay(100); // チャタリング防止
                 }
                 else
                 {
@@ -508,9 +498,9 @@ void AppControl::controlApplication()
                 }
                 else if (m_flag_btnC_is_pressed)
                 {
+                    displayNextMusic();
                     delay(100); // チャタリング防止
                     setBtnAllFlgFalse();
-                    displayNextMusic();
                 }
                 else
                 {
