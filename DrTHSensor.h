@@ -17,5 +17,5 @@ private: // privateはクラス内からしかアクセスできない
 
 public: // publicはどこからでもアクセス可能
     void init();
-    void getTempHumi(double* temperature, double* humidity);
+    void getTempHumi(double *temperature, double *humidity);
 };
