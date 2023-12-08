@@ -7,6 +7,7 @@
 #include "MdMeasureDistance.h"
 #include "MdMusicPlayer.h"
 #include "MdWBGTMonitor.h"
+#include "MdHALRecordMonitor.h"
 
 class AppControl // classの定義
 {
@@ -14,6 +15,8 @@ private: // privateはクラス内からしかアクセスできない
     bool m_flag_btnA_is_pressed = false;
     bool m_flag_btnB_is_pressed = false;
     bool m_flag_btnC_is_pressed = false;
+
+    int m_numbers[2] = {0};
 
     /* State Machine */
     State m_state = TITLE;
@@ -49,5 +52,10 @@ public: // publicはどこからでもアクセス可能
     void displayMeasureDistance();
     void displayDateInit();
     void displayDateUpdate();
+    void displayHALInit();
+    void HALBattleStart();
+    void displayHALBattleChoice();
+    void displayHALBattleResult();
+    void displayHALRecord();
     void controlApplication();
 };

@@ -2,7 +2,15 @@
 #pragma once
 
 #include "DrTHSensor.h"
-#include "M5All-In-One-Gadget.h"
+
+typedef enum
+{
+    SAFE,
+    ATTENTION,
+    ALERT,
+    HIGH_ALERT,
+    DANGER
+} WbgtIndex;
 
 class MdWBGTMonitor // classの定義
 {

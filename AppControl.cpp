@@ -7,6 +7,7 @@ MdWBGTMonitor mwbgt;
 MdMusicPlayer mmplay;
 MdMeasureDistance mmdist;
 MdDateTime mdtime;
+MdHALRecordMonitor mhalrm;
 
 const char *g_str_orange[] = {
     COMMON_ORANGE0_IMG_PATH,
@@ -32,6 +33,32 @@ const char *g_str_blue[] = {
     COMMON_BLUE7_IMG_PATH,
     COMMON_BLUE8_IMG_PATH,
     COMMON_BLUE9_IMG_PATH,
+};
+
+const char *g_str_heart[] = {
+    NULL,
+    TRUMP_CARD_HEART1_IMG_PATH,
+    TRUMP_CARD_HEART2_IMG_PATH,
+    TRUMP_CARD_HEART3_IMG_PATH,
+    TRUMP_CARD_HEART4_IMG_PATH,
+    TRUMP_CARD_HEART5_IMG_PATH,
+    TRUMP_CARD_HEART6_IMG_PATH,
+    TRUMP_CARD_HEART7_IMG_PATH,
+    TRUMP_CARD_HEART8_IMG_PATH,
+    TRUMP_CARD_HEART9_IMG_PATH,
+};
+
+const char *g_str_spade[] = {
+    NULL,
+    TRUMP_CARD_SPADE1_IMG_PATH,
+    TRUMP_CARD_SPADE2_IMG_PATH,
+    TRUMP_CARD_SPADE3_IMG_PATH,
+    TRUMP_CARD_SPADE4_IMG_PATH,
+    TRUMP_CARD_SPADE5_IMG_PATH,
+    TRUMP_CARD_SPADE6_IMG_PATH,
+    TRUMP_CARD_SPADE7_IMG_PATH,
+    TRUMP_CARD_SPADE8_IMG_PATH,
+    TRUMP_CARD_SPADE9_IMG_PATH,
 };
 
 void AppControl::setBtnAFlg(bool flg)
@@ -301,6 +328,93 @@ void AppControl::displayDateUpdate()
     mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
 }
 
+void AppControl::displayHALInit()
+{
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(TRUMP_TITLE_IMG_PATH, TRUMP_TITLE_X_CRD, TRUMP_TITLE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_START_IMG_PATH, TRUMP_START_X_CRD, TRUMP_START_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, TRUMP_BACK_X_CRD, TRUMP_BACK_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_RECORD_IMG_PATH, TRUMP_RECORD_X_CRD, TRUMP_RECORD_Y_CRD);
+}
+
+void AppControl::HALBattleStart()
+{
+    mhalrm.startbattle(mdtime.readDate(), mdtime.readTime());
+}
+
+void AppControl::displayHALBattleChoice()
+{
+    mlcd.fillBackgroundWhite();
+
+    srand((unsigned)time(NULL));
+
+    int fake = rand() % 9 + 1;
+
+    for (int i = 0; i < 2; i++)
+    {
+        m_numbers[i] = (rand() % 9) + 1;
+        if (m_numbers[0] == m_numbers[1])
+        {
+            i--;
+        }
+    }
+
+    mlcd.displayJpgImageCoordinate(g_str_heart[m_numbers[0]], TRUMP_CARD_HEART_X_CRD, TRUMP_CARD_HEART_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_CARD_BACK_IMG_PATH, TRUMP_CARD_BACK_X_CRD, TRUMP_CARD_BACK_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_HIGHANDLOW_IMG_PATH, TRUMP_HIGHANDLOW_X_CRD, TRUMP_HIGHANDLOW_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_HIGH_IMG_PATH, TRUMP_HIGH_X_CRD, TRUMP_HIGH_Y_CRD);
+    mlcd.displayJpgImageCoordinate(TRUMP_LOW_IMG_PATH, TRUMP_LOW_X_CRD, TRUMP_LOW_Y_CRD);
+}
+
+void AppControl::displayHALBattleResult()
+{
+    if (m_state == HAL_BATTLE_RESULT && m_action == EXIT && m_flag_btnB_is_pressed == true)
+    {
+        mhalrm.getrecord(BACK);
+    }
+    else
+    {
+        mlcd.fillBackgroundWhite();
+        mlcd.displayJpgImageCoordinate(g_str_heart[m_numbers[0]], TRUMP_CARD_HEART_X_CRD, TRUMP_CARD_HEART_Y_CRD);
+        mlcd.displayJpgImageCoordinate(g_str_spade[m_numbers[1]], TRUMP_CARD_BACK_X_CRD, TRUMP_CARD_BACK_Y_CRD);
+        if (m_numbers[0] < m_numbers[1])
+        {
+            if (m_flag_btnA_is_pressed == true)
+            {
+                mlcd.displayJpgImageCoordinate(TRUMP_WIN_IMG_PATH, TRUMP_WIN_X_CRD, TRUMP_WIN_Y_CRD);
+                mhalrm.getrecord(WIN);
+            }
+            else
+            {
+                mlcd.displayJpgImageCoordinate(TRUMP_LOSE_IMG_PATH, TRUMP_LOSE_X_CRD, TRUMP_LOSE_Y_CRD);
+                mhalrm.getrecord(LOSE);
+            }
+        }
+        else
+        {
+            if (m_flag_btnC_is_pressed == true)
+            {
+                mlcd.displayJpgImageCoordinate(TRUMP_WIN_IMG_PATH, TRUMP_WIN_X_CRD, TRUMP_WIN_Y_CRD);
+                mhalrm.getrecord(WIN);
+            }
+            else
+            {
+                mlcd.displayJpgImageCoordinate(TRUMP_LOSE_IMG_PATH, TRUMP_LOSE_X_CRD, TRUMP_LOSE_Y_CRD);
+                mhalrm.getrecord(LOSE);
+            }
+        }
+        mlcd.displayJpgImageCoordinate(TRUMP_ONMORE_IMG_PATH, TRUMP_ONMORE_X_CRD, TRUMP_ONMORE_Y_CRD);
+        mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, TRUMP_BACK_X_CRD, TRUMP_BACK_Y_CRD);
+    }
+}
+
+void AppControl::displayHALRecord()
+{
+    mlcd.fillBackgroundWhite();
+    mhalrm.recordmonitor();
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH, TRUMP_BACK_X_CRD, TRUMP_BACK_Y_CRD);
+}
+
 void AppControl::controlApplication()
 {
     mmplay.init();
@@ -345,7 +459,7 @@ void AppControl::controlApplication()
             break;
 
         case MENU:
-
+            static int hidden_command_cnt = 0;
             switch (getAction())
             {
             case ENTRY:
@@ -377,6 +491,21 @@ void AppControl::controlApplication()
                     default:
                         break;
                     }
+                    //////////隠しコマンドカウント//////////
+                    switch (hidden_command_cnt)
+                    {
+                    case 0:
+                    case 1:
+                        hidden_command_cnt++;
+                        break;
+                    case 2:
+                        hidden_command_cnt = 2;
+                        break;
+                    default:
+                        hidden_command_cnt = 1;
+                        break;
+                    }
+                    ///////////////////////////////////////
                     setBtnAllFlgFalse();
                     delay(100); // チャタリング防止
                 }
@@ -409,6 +538,20 @@ void AppControl::controlApplication()
                     default:
                         break;
                     }
+                    //////////隠しコマンドカウント//////////
+                    switch (hidden_command_cnt)
+                    {
+                    case 2:
+                        hidden_command_cnt = 3;
+                        break;
+                    case 3:
+                        hidden_command_cnt = 4;
+                        break;
+                    default:
+                        hidden_command_cnt = 0;
+                        break;
+                    }
+                    ///////////////////////////////////////
                     setBtnAllFlgFalse();
                     delay(100); // チャタリング防止
                 }
@@ -419,25 +562,33 @@ void AppControl::controlApplication()
                 break;
 
             case EXIT:
-                switch (m_focus_state)
+                if (hidden_command_cnt == 4)
                 {
-                case MENU_WBGT:
-                    setStateMachine(WBGT, ENTRY);
-                    break;
-                case MENU_MUSIC:
-                    setStateMachine(MUSIC_STOP, ENTRY);
-                    break;
-                case MENU_MEASURE:
-                    setStateMachine(MEASURE, ENTRY);
-                    break;
-                case MENU_DATE:
-                    setStateMachine(DATE, ENTRY);
-                    break;
+                    hidden_command_cnt = 0;
+                    setStateMachine(HAL_TITLE, ENTRY);
+                }
+                else
+                {
+                    switch (m_focus_state)
+                    {
+                    case MENU_WBGT:
+                        setStateMachine(WBGT, ENTRY);
+                        break;
+                    case MENU_MUSIC:
+                        setStateMachine(MUSIC_STOP, ENTRY);
+                        break;
+                    case MENU_MEASURE:
+                        setStateMachine(MEASURE, ENTRY);
+                        break;
+                    case MENU_DATE:
+                        setStateMachine(DATE, ENTRY);
+                        break;
+                    default:
+                        break;
+                    }
                 default:
                     break;
                 }
-            default:
-                break;
             }
 
             break;
@@ -625,6 +776,160 @@ void AppControl::controlApplication()
 
             case EXIT:
                 setStateMachine(MENU, ENTRY);
+                break;
+
+            default:
+                break;
+            }
+
+            break;
+
+        case HAL_TITLE:
+
+            switch (getAction())
+            {
+            case ENTRY:
+                displayHALInit();
+                setStateMachine(HAL_TITLE, DO);
+                break;
+
+            case DO:
+                if (m_flag_btnA_is_pressed || m_flag_btnB_is_pressed || m_flag_btnC_is_pressed)
+                {
+                    delay(100); // チャタリング防止
+                    setStateMachine(HAL_TITLE, EXIT);
+                }
+                else
+                {
+                    setStateMachine(HAL_TITLE, DO);
+                }
+                break;
+
+            case EXIT:
+                if (m_flag_btnA_is_pressed)
+                {
+                    setBtnAllFlgFalse();
+                    HALBattleStart();
+                    setStateMachine(HAL_BATTLE_CHOICE, ENTRY);
+                }
+                else if (m_flag_btnB_is_pressed)
+                {
+                    setBtnAllFlgFalse();
+                    setStateMachine(MENU, ENTRY);
+                }
+                else
+                {
+                    setBtnAllFlgFalse();
+                    setStateMachine(HAL_RECORD, ENTRY);
+                }
+                break;
+
+            default:
+                break;
+            }
+
+            break;
+
+        case HAL_BATTLE_CHOICE:
+
+            switch (getAction())
+            {
+            case ENTRY:
+                displayHALBattleChoice();
+                setStateMachine(HAL_BATTLE_CHOICE, DO);
+                break;
+
+            case DO:
+                if (m_flag_btnA_is_pressed)
+                {
+                    setStateMachine(HAL_BATTLE_CHOICE, EXIT);
+                }
+                else if (m_flag_btnC_is_pressed)
+                {
+                    setStateMachine(HAL_BATTLE_CHOICE, EXIT);
+                }
+                else
+                {
+                    setStateMachine(HAL_BATTLE_CHOICE, DO);
+                }
+                break;
+
+            case EXIT:
+                setStateMachine(HAL_BATTLE_RESULT, ENTRY);
+                break;
+
+            default:
+                break;
+            }
+
+            break;
+
+        case HAL_BATTLE_RESULT:
+
+            switch (getAction())
+            {
+            case ENTRY:
+                displayHALBattleResult();
+                delay(1000);
+                setBtnAllFlgFalse();
+                setStateMachine(HAL_BATTLE_RESULT, DO);
+                break;
+
+            case DO:
+                if (m_flag_btnA_is_pressed || m_flag_btnB_is_pressed)
+                {
+                    setStateMachine(HAL_BATTLE_RESULT, EXIT);
+                }
+                else
+                {
+                    setStateMachine(HAL_BATTLE_RESULT, DO);
+                }
+                break;
+
+            case EXIT:
+                if (m_flag_btnA_is_pressed)
+                {
+                    setBtnAllFlgFalse();
+                    setStateMachine(HAL_BATTLE_CHOICE, ENTRY);
+                }
+                else
+                {
+                    displayHALBattleResult();
+                    setBtnAllFlgFalse();
+                    setStateMachine(HAL_TITLE, ENTRY);
+                }
+                break;
+
+            default:
+                break;
+            }
+
+            break;
+
+        case HAL_RECORD:
+
+            switch (getAction())
+            {
+            case ENTRY:
+                displayHALRecord();
+                setStateMachine(HAL_RECORD, DO);
+                break;
+
+            case DO:
+                if (m_flag_btnB_is_pressed)
+                {
+                    delay(100); // チャタリング防止
+                    setBtnAllFlgFalse();
+                    setStateMachine(HAL_RECORD, EXIT);
+                }
+                else
+                {
+                    setStateMachine(HAL_RECORD, DO);
+                }
+                break;
+
+            case EXIT:
+                setStateMachine(HAL_TITLE, ENTRY);
                 break;
 
             default:

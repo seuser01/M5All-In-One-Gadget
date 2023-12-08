@@ -42,6 +42,35 @@
 #define DATE_SLASH_IMG_PATH "/images/date/slash.jpg"
 #define DATE_COLON_IMG_PATH "/images/date/colon.jpg"
 
+#define TRUMP_TITLE_IMG_PATH "/images/trump/title.jpg"
+#define TRUMP_START_IMG_PATH "/images/trump/start.jpg"
+#define TRUMP_RECORD_IMG_PATH "/images/trump/record.jpg"
+#define TRUMP_HIGHANDLOW_IMG_PATH "/images/trump/highandlow.jpg"
+#define TRUMP_HIGH_IMG_PATH "/images/trump/high.jpg"
+#define TRUMP_LOW_IMG_PATH "/images/trump/low.jpg"
+#define TRUMP_WIN_IMG_PATH "/images/trump/win.jpg"
+#define TRUMP_LOSE_IMG_PATH "/images/trump/lose.jpg"
+#define TRUMP_ONMORE_IMG_PATH "/images/trump/onmore.jpg"
+#define TRUMP_CARD_BACK_IMG_PATH "/images/trump/back.jpg"
+#define TRUMP_CARD_HEART1_IMG_PATH "/images/trump/heart/heart1.jpg"
+#define TRUMP_CARD_HEART2_IMG_PATH "/images/trump/heart/heart2.jpg"
+#define TRUMP_CARD_HEART3_IMG_PATH "/images/trump/heart/heart3.jpg"
+#define TRUMP_CARD_HEART4_IMG_PATH "/images/trump/heart/heart4.jpg"
+#define TRUMP_CARD_HEART5_IMG_PATH "/images/trump/heart/heart5.jpg"
+#define TRUMP_CARD_HEART6_IMG_PATH "/images/trump/heart/heart6.jpg"
+#define TRUMP_CARD_HEART7_IMG_PATH "/images/trump/heart/heart7.jpg"
+#define TRUMP_CARD_HEART8_IMG_PATH "/images/trump/heart/heart8.jpg"
+#define TRUMP_CARD_HEART9_IMG_PATH "/images/trump/heart/heart9.jpg"
+#define TRUMP_CARD_SPADE1_IMG_PATH "/images/trump/spade/spade1.jpg"
+#define TRUMP_CARD_SPADE2_IMG_PATH "/images/trump/spade/spade2.jpg"
+#define TRUMP_CARD_SPADE3_IMG_PATH "/images/trump/spade/spade3.jpg"
+#define TRUMP_CARD_SPADE4_IMG_PATH "/images/trump/spade/spade4.jpg"
+#define TRUMP_CARD_SPADE5_IMG_PATH "/images/trump/spade/spade5.jpg"
+#define TRUMP_CARD_SPADE6_IMG_PATH "/images/trump/spade/spade6.jpg"
+#define TRUMP_CARD_SPADE7_IMG_PATH "/images/trump/spade/spade7.jpg"
+#define TRUMP_CARD_SPADE8_IMG_PATH "/images/trump/spade/spade8.jpg"
+#define TRUMP_CARD_SPADE9_IMG_PATH "/images/trump/spade/spade9.jpg"
+
 #define COMMON_BUTTON_BACK_IMG_PATH "/images/common/button/back.jpg"
 #define COMMON_BUTTON_DECIDE_IMG_PATH "/images/common/button/decide.jpg"
 #define COMMON_BUTTON_DOWN_IMG_PATH "/images/common/button/down.jpg"
@@ -169,6 +198,38 @@
 #define DATE_BACK_X_CRD 120
 #define DATE_BACK_Y_CRD 200
 
+// Trump jpg image coordinate
+#define TRUMP_TITLE_X_CRD 0
+#define TRUMP_TITLE_Y_CRD 0
+#define TRUMP_START_X_CRD 0
+#define TRUMP_START_Y_CRD 200
+#define TRUMP_BACK_X_CRD 120
+#define TRUMP_BACK_Y_CRD 200
+#define TRUMP_RECORD_X_CRD 240
+#define TRUMP_RECORD_Y_CRD 200
+#define TRUMP_HIGHANDLOW_X_CRD 10
+#define TRUMP_HIGHANDLOW_Y_CRD 135
+#define TRUMP_HIGH_X_CRD 0
+#define TRUMP_HIGH_Y_CRD 200
+#define TRUMP_LOW_X_CRD 240
+#define TRUMP_LOW_Y_CRD 200
+#define TRUMP_WIN_X_CRD 70
+#define TRUMP_WIN_Y_CRD 135
+#define TRUMP_LOSE_X_CRD 100
+#define TRUMP_LOSE_Y_CRD 135
+#define TRUMP_ONMORE_X_CRD 0
+#define TRUMP_ONMORE_Y_CRD 200
+#define TRUMP_CARD_BACK_X_CRD 199
+#define TRUMP_CARD_BACK_Y_CRD 0
+#define TRUMP_CARD_HEART_X_CRD 40
+#define TRUMP_CARD_HEART_Y_CRD 0
+#define TRUMP_CARD_SPADE_X_CRD 199
+#define TRUMP_CARD_SPADE_Y_CRD 0
+
+#define LOSE 0
+#define WIN 1
+#define BACK 2
+
 typedef enum
 {
     TITLE,
@@ -177,7 +238,11 @@ typedef enum
     MUSIC_STOP,
     MUSIC_PLAY,
     MEASURE,
-    DATE
+    DATE,
+    HAL_TITLE,
+    HAL_BATTLE_CHOICE,
+    HAL_BATTLE_RESULT,
+    HAL_RECORD
 } State;
 
 typedef enum
@@ -194,12 +259,3 @@ typedef enum
     MENU_MEASURE,
     MENU_DATE
 } FocusState;
-
-typedef enum
-{
-    SAFE,
-    ATTENTION,
-    ALERT,
-    HIGH_ALERT,
-    DANGER
-} WbgtIndex;
