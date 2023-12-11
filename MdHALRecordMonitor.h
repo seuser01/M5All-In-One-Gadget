@@ -13,7 +13,6 @@ class MdHALRecordMonitor // classの定義
 {
 private: // privateはクラス内からしかアクセスできない
     Getdata battle[16];
-    Getdata battle_record[16];
     int m_hal_cnt = 0;
     int m_win_cnt = 0;
     MdDateTime mdtime;
